@@ -1,15 +1,27 @@
 cdef extern from "raptor.h":
 	ctypedef struct raptor_uri:
 		pass
+
+	ctypedef struct raptor_world:
+		pass
 		
-	raptor_uri *raptor_new_uri(unsigned char *uri)
+	raptor_uri *raptor_new_uri(raptor_world * world, unsigned char *uri)
 	unsigned char *raptor_uri_as_string(raptor_uri *uri)
 
+	raptor_world * raptor_new_world()
+	int raptor_world_open(raptor_world * world)
+
 cdef extern from "rasqal/rasqal.h":
+	ctypedef struct rasqal_world:
+		pass
+
+	rasqal_world * rasqal_new_world()
+	int rasqal_world_open(rasqal_world * world)
+	 
 	ctypedef struct rasqal_query:
 		pass
 	ctypedef struct rasqal_variable:
-		void 		*vars_table
+		void		*vars_table
 		unsigned char *name
 	ctypedef enum rasqal_literal_type:
 		RASQAL_LITERAL_UNKNOWN
@@ -53,7 +65,7 @@ cdef extern from "rasqal/rasqal.h":
 	rasqal_triple *rasqal_query_get_construct_triple(rasqal_query *q, int i)
 	unsigned char *rasqal_literal_as_string(rasqal_literal *l)
 
-cdef extern from "common/datatypes.h":
+cdef extern from "common/4s-datatypes.h":
 	ctypedef unsigned long long int fs_rid
 	ctypedef struct fs_rid_vector:
 		pass
@@ -76,7 +88,7 @@ cdef extern from "common/4store.h":
 
 	int fsp_delete_model_all(fsp_link *link, fs_rid_vector *mvec)
 
-cdef extern from "common/hash.h":
+cdef extern from "common/4s-hash.h":
 	void fs_hash_init(fsp_hash_enum type)
 	fs_rid (*fs_hash_uri)(char *str)
 
@@ -85,12 +97,12 @@ cdef extern from "frontend/query.h":
 		pass
 	ctypedef struct fs_query:
 		pass
-	fs_query_state *fs_query_init(fsp_link *link)
+	fs_query_state *fs_query_init(fsp_link *link, rasqal_world * rasw, raptor_world * rapw)
 	void fs_query_fini(fs_query_state *qs)
 	void fs_query_cache_flush(fs_query_state *qs, int verbose)
 	fs_query *fs_query_execute(fs_query_state *qs, fsp_link *link,
 				raptor_uri *bu, char *query, int flags,
-				int opt_level, int soft_limit)
+				int opt_level, int soft_limit, int explain)
 	void fs_query_free(fs_query *q)
 
 

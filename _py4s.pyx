@@ -1,5 +1,5 @@
 cimport _py4s as py4s
-
+from cpython cimport bool
 try:
     from rdflib.term import URIRef, Literal, BNode, Identifier, Variable
     from rdflib.graph import ConjunctiveGraph, Graph
@@ -15,6 +15,12 @@ def version():
     d = Environment().best_match(r, working_set)
     return d.version
 version = version()
+
+cdef py4s.raptor_world * raptorworld = py4s.raptor_new_world()
+py4s.raptor_world_open(raptorworld)
+
+cdef py4s.rasqal_world * rasqalworld = py4s.rasqal_new_world()
+py4s.rasqal_world_open(rasqalworld)
 
 include "rnode.pyx"
 
@@ -112,7 +118,7 @@ cdef class _Cursor:
     def __cinit__(self, FourStoreClient store):
         self.store = store
         self._link = store._link
-        self._qs = py4s.fs_query_init(store._link)
+        self._qs = py4s.fs_query_init(store._link, rasqalworld, raptorworld)
         features = py4s.fsp_link_features(store._link).strip().split(" ")
         self._features = dict([ (x, True) for x in features ])
     def __dealloc__(self):
@@ -142,10 +148,10 @@ cdef class _Cursor:
         py_uquery = query.encode("utf-8")
         self._query = py_uquery
 
-        cdef py4s.raptor_uri *bu = py4s.raptor_new_uri(context)
+        cdef py4s.raptor_uri *bu = py4s.raptor_new_uri(raptorworld,context)
         self._qr = py4s.fs_query_execute(self._qs, self._link, bu,
                 self._query, 0,
-                self.store.opt_level, self.store.soft_limit)
+                self.store.opt_level, self.store.soft_limit, 0)
         results = _QueryResults(self)
 
         # construct and describe queries return a graph

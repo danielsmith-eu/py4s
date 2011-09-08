@@ -116,7 +116,11 @@ libpy4s = Extension(
 		"src/frontend/order.c",
 		"src/frontend/import.c",
 		"src/frontend/update.c",
+                "src/frontend/group.c",
 		"py4s_helpers.c",
+                "src/libs/mt19937-64/mt19937-64.c",
+                "src/libs/stemmer/libstemmer/libstemmer.c",
+                "src/libs/stemmer/src_c/stem_ISO_8859_1_danish.c"
 	],
 	extra_compile_args=["-std=gnu99"],
         define_macros=define_macros,
