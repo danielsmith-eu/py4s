@@ -151,7 +151,7 @@ cdef class _Cursor:
         cdef py4s.raptor_uri *bu = py4s.raptor_new_uri(raptorworld,context)
         self._qr = py4s.fs_query_execute(self._qs, self._link, bu,
                 self._query, 0,
-                self.store.opt_level, self.store.soft_limit, 0)
+                self.store.opt_level, self.store.soft_limit, None, 0)
         results = _QueryResults(self)
 
         # construct and describe queries return a graph
