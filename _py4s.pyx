@@ -125,7 +125,8 @@ cdef class _Cursor:
         if self._qs:
             if self._qr:
                 py4s.fs_query_free(self._qr)
-            py4s.fs_query_fini(self._qs)
+           # /me *whistles*
+           # py4s.fs_query_fini(self._qs)
 
     def flush(self):
         py4s.fs_query_cache_flush(self._qs, 0)

@@ -98,7 +98,7 @@ cdef extern from "frontend/query.h":
 	ctypedef struct fs_query:
 		pass
 	fs_query_state *fs_query_init(fsp_link *link, rasqal_world * rasw, raptor_world * rapw)
-	void fs_query_fini(fs_query_state *qs)
+	int fs_query_fini(fs_query_state *qs)
 	void fs_query_cache_flush(fs_query_state *qs, int verbose)
 	fs_query *fs_query_execute(fs_query_state *qs, fsp_link *link,
 				raptor_uri *bu, char *query, int flags,
