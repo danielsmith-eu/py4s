@@ -67,6 +67,7 @@ library_dirs = uniqify(glib_dirs + rasqal_dirs + raptor_dirs + avahi_client_dirs
 libraries = uniqify(glib_libs + rasqal_libs + raptor_libs + avahi_client_libs + avahi_glib_libs)
 
 define_macros=[]
+define_macros.append(("FS_BIN_DIR", "\"/usr/local/bin\""))
 
 if not os.system("pkg-config rasqal --atleast-version=0.9.14"):
 	define_macros.append(("HAVE_LAQRS", 1))
@@ -97,6 +98,8 @@ libpy4s = Extension(
 		"src/common/4s-client.c",
 		"src/common/4s-mdns.c",
         "src/admin/admin_common.c",
+        "src/admin/admin_frontend.c",
+        "src/admin/admin_protocol.c",
         "src/common/bit_arr.c",
 		"src/common/datatypes.c",
 		"src/common/error.c",
