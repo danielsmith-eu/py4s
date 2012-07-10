@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
 	qs = fs_query_init(link);
 	for (i=0;i<atoi(argv[1]);i++) {
 		//printf("--------- %d ----------\n", i);
-		qr = fs_query_execute(qs, link, bu, QUERY, 0, 3, 0);
+		qr = fs_query_execute(qs, link, bu, QUERY, 0, 3, NULL, 0);
 		fs_query_free(qr);
 		fs_query_cache_flush(qs, 0);
 	}
