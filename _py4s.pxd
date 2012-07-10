@@ -102,7 +102,7 @@ cdef extern from "frontend/query.h":
 	void fs_query_cache_flush(fs_query_state *qs, int verbose)
 	fs_query *fs_query_execute(fs_query_state *qs, fsp_link *link,
 				raptor_uri *bu, char *query, int flags,
-				int opt_level, int soft_limit, int explain)
+				int opt_level, int soft_limit, char *apikey, int explain)
 	void fs_query_free(fs_query *q)
 
 
