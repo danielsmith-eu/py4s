@@ -43,7 +43,7 @@ class FourStore(FourStoreClient, Store):
     def namespaces(self):
         return self.__namespace.items()
 
-    def query(self, *av, **kw):
+    def query(self, graph, *av, **kw):
         """Execute a SPARQL Query"""
         return self.cursor().execute(*av, **kw)
 
