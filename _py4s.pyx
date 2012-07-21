@@ -131,7 +131,7 @@ cdef class _Cursor:
     def flush(self):
         py4s.fs_query_cache_flush(self._qs, 0)
 
-    def execute(self, query, context="local:", initNs={}, initBindings={}): # TODO do something with initBindings
+    def execute(self, context, query, initNs={}, initBindings={}): # TODO do something with initBindings
         if self._qr:
             py4s.fs_query_free(self._qr)
         if not isinstance(query, unicode):
